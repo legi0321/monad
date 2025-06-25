@@ -26,18 +26,17 @@ const routers = {
 // Daftar pasangan token yang ingin ditukar
 const tokenPairs = [
   {
-    tokenIn: '0xf817257fed379853cDe0fa4F97AB987181B1E5Ea',   // Ganti dengan token input pertama
-    tokenOut: '0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701'  // Ganti dengan token output pertama
+    tokenIn: '0xf817257fed379853cDe0fa4F97AB987181B1E5Ea',
+    tokenOut: '0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701'
   },
   {
-    tokenIn: '0xB5a30b0FDc5EA94A52fDc42e3E9760Cb8449Fb37',   // Ganti dengan token input kedua
-    tokenOut: '0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701'  // Ganti dengan token output kedua
-  }
+    tokenIn: '0xB5a30b0FDc5EA94A52fDc42e3E9760Cb8449Fb37',
+    tokenOut: '0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701'
+  },
   {
-    tokenIn: '0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701',   // Ganti dengan token input kedua
-    tokenOut: '0xf817257fed379853cDe0fa4F97AB987181B1E5Ea'  // Ganti dengan token output kedua
+    tokenIn: '0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701',
+    tokenOut: '0xf817257fed379853cDe0fa4F97AB987181B1E5Ea'
   }
-  
 ];
 
 const routerAbi = [
