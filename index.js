@@ -78,33 +78,37 @@ async function swap(platform, tokenIn, tokenOut, amountIn, wallet) {
   }
 }
 
-async function main() {
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+async function swap(platform, tokenIn, tokenOut, amountIn, wallet) {
+  try {
+    const { address: routerAddr, name } = routers[platform];
+    const token = new ethers.Contract(tokenIn, erc20Abi, wallet);
+    const router = new ethers.Contract(routerAddr, routerAbi, wallet);
 
-  const amountStr = await rl.question('Masukkan jumlah token (desimal): ');
-  const repeatStr = await rl.question('Berapa kali swap per wallet?: ');
-  rl.close();
-
-  if (!/^\d*\.?\d+$/.test(amountStr)) {
-    console.log('❌ Input jumlah tidak valid');
-    return;
-  }
-
-  const amountIn = ethers.parseUnits(amountStr, 18);
-  const repeat = parseInt(repeatStr);
-
-  for (const wallet of wallets) {
-    console.log(`\n🔑 Wallet: ${wallet.address}`);
-    for (let i = 0; i < repeat; i++) {
-      console.log(`🔄 Iterasi ke-${i + 1}`);
-      for (const pair of tokenPairs) {
-        for (const dex in routers) {
-          await swap(dex, pair.tokenIn, pair.tokenOut, amountIn, wallet);
-          await delay(2500); // Delay 2.5 detik antar swap
-        }
-      }
+    const balance = await token.balanceOf(wallet.address);
+    if (balance < amountIn) {
+      console.log(`❌ [${wallet.address}] Saldo kurang. Punya: ${ethers.formatUnits(balance, 18)}`);
+      return;
     }
+
+    await token.approve(routerAddr, amountIn);
+    console.log(`✅ [${name}] Approve ${ethers.formatUnits(amountIn, 18)} token`);
+
+    const amounts = await router.getAmountsOut(amountIn, [tokenIn, tokenOut]);
+    const amountOutMin = amounts[1] * 95n / 100n;
+
+    const tx = await router.swapExactTokensForTokens(
+      amountIn,
+      amountOutMin,
+      [tokenIn, tokenOut],
+      wallet.address,
+      Math.floor(Date.now() / 1000) + 60 * 5
+    );
+
+    console.log(`🔁 [${name}] Tx sent: ${tx.hash}`);
+    await tx.wait();
+    console.log(`🎉 [${name}] Swap sukses\n`);
+  } catch (err) {
+    console.log(`🚨 Swap gagal: ${err.reason || err.message || 'Unknown error'}`);
   }
 }
 
-main().catch(console.error);
