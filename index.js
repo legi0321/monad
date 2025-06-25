@@ -56,10 +56,10 @@ async function swapOnWithWallet(platform, tokenIn, tokenOut, amountIn, wallet) {
   const token = new ethers.Contract(tokenIn, erc20Abi, wallet);
 
   await token.approve(routerAddr, amountIn);
-  console.log(`✅ [${name}] Approved ${ethers.formatUnits(amountIn)} tokens on ${wallet.address}`);
+  console.log(`✅ [${name}] Approved ${ethers.formatUnits(amountIn, 18)} tokens on ${wallet.address}`);
 
   const amounts = await router.getAmountsOut(amountIn, [tokenIn, tokenOut]);
-  const amountOutMin = amounts[1].mul(95).div(100);
+  const amountOutMin = (amounts[1] * 95n) / 100n;
 
   const tx = await router.swapExactTokensForTokens(
     amountIn,
@@ -100,5 +100,8 @@ async function main() {
     }
   }
 }
+
+main().catch(console.error);
+
 
 main().catch(console.error);
