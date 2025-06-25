@@ -1,13 +1,13 @@
-// swap_all.js (multi-akun + multi-token-pair)
+// index.js (Multi-akun, multi-pair, fix ethers v6 syntax)
 require('dotenv').config();
-const { ethers } = require('ethers');
+const ethers = require('ethers');
 const readline = require('readline');
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
+const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
 const keys = process.env.PRIVATE_KEYS.split(',');
 const wallets = keys.map(k => new ethers.Wallet(k.trim(), provider));
 
-// Tambahkan alamat router di sini
+// Router addresses
 const routers = {
   bean: {
     address: '0xca810d095e90daae6e867c19df6d9a8c56db2c89',
@@ -23,7 +23,7 @@ const routers = {
   }
 };
 
-// Daftar pasangan token yang ingin ditukar
+// Token pairs to swap
 const tokenPairs = [
   {
     tokenIn: '0xf817257fed379853cDe0fa4F97AB987181B1E5Ea',
@@ -47,15 +47,16 @@ const erc20Abi = ['function approve(address,uint256) public returns (bool)'];
 
 async function swapOnWithWallet(platform, tokenIn, tokenOut, amountIn, wallet) {
   const { address: routerAddr, name } = routers[platform];
-  if (!routerAddr.startsWith('0x') || routerAddr.includes('ADDRESS_HERE')) {
+  if (!routerAddr.startsWith('0x')) {
     console.log(`⚠️ Router ${name} belum dikonfigurasi.`);
     return;
   }
+
   const router = new ethers.Contract(routerAddr, routerAbi, wallet);
   const token = new ethers.Contract(tokenIn, erc20Abi, wallet);
 
   await token.approve(routerAddr, amountIn);
-  console.log(`✅ [${name}] Approved ${ethers.utils.formatUnits(amountIn)} tokens on ${wallet.address}`);
+  console.log(`✅ [${name}] Approved ${ethers.formatUnits(amountIn)} tokens on ${wallet.address}`);
 
   const amounts = await router.getAmountsOut(amountIn, [tokenIn, tokenOut]);
   const amountOutMin = amounts[1].mul(95).div(100);
@@ -84,11 +85,11 @@ async function main() {
   const amountStr = await prompt('Masukkan jumlah token yang ingin di-swap per transaksi: ');
   const repeatStr = await prompt('Berapa kali ingin melakukan swap per wallet?: ');
 
-  const amount = ethers.utils.parseUnits(amountStr, 18);
+  const amount = ethers.parseUnits(amountStr, 18);
   const repeat = parseInt(repeatStr);
 
   for (const wallet of wallets) {
-    console.log(`\n🔑 Menggunakan wallet: ${wallet.address}`);
+    console.log(`\n🔑 Wallet: ${wallet.address}`);
     for (let i = 0; i < repeat; i++) {
       console.log(`🔄 Iterasi ke-${i + 1}`);
       for (const pair of tokenPairs) {
