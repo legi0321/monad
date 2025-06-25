@@ -10,7 +10,7 @@ const wallets = keys.map(k => new ethers.Wallet(k.trim(), provider));
 // Tambahkan alamat router di sini
 const routers = {
   bean: {
-    address: '0xBEAN_ROUTER_ADDRESS_HERE',
+    address: '0xca810d095e90daae6e867c19df6d9a8c56db2c89',
     name: 'Bean Exchange'
   },
   kuru: {
@@ -18,7 +18,7 @@ const routers = {
     name: 'Kuru.io'
   },
   izumi: {
-    address: '0xIZUMI_ROUTER_ADDRESS_HERE',
+    address: '0xf6ffe4f3fdc8bbb7f70ffd48e61f17d1e343ddfd',
     name: 'Izumi Finance'
   }
 };
@@ -26,14 +26,18 @@ const routers = {
 // Daftar pasangan token yang ingin ditukar
 const tokenPairs = [
   {
-    tokenIn: '0xTOKEN_IN_ADDRESS_1',   // Ganti dengan token input pertama
-    tokenOut: '0xTOKEN_OUT_ADDRESS_1'  // Ganti dengan token output pertama
+    tokenIn: '0xf817257fed379853cDe0fa4F97AB987181B1E5Ea',   // Ganti dengan token input pertama
+    tokenOut: '0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701'  // Ganti dengan token output pertama
   },
   {
-    tokenIn: '0xTOKEN_IN_ADDRESS_2',   // Ganti dengan token input kedua
-    tokenOut: '0xTOKEN_OUT_ADDRESS_2'  // Ganti dengan token output kedua
+    tokenIn: '0xB5a30b0FDc5EA94A52fDc42e3E9760Cb8449Fb37',   // Ganti dengan token input kedua
+    tokenOut: '0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701'  // Ganti dengan token output kedua
   }
-  // Tambahkan lebih banyak pasangan jika perlu
+  {
+    tokenIn: '0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701',   // Ganti dengan token input kedua
+    tokenOut: '0xf817257fed379853cDe0fa4F97AB987181B1E5Ea'  // Ganti dengan token output kedua
+  }
+  
 ];
 
 const routerAbi = [
