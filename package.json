@@ -1,16 +1,13 @@
 {
   "name": "monad-token-swap",
   "version": "1.0.0",
-  "description": "Swap multi-token dan multi-akun di jaringan Monad ke Bean, Kuru, dan Izumi",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
-  "author": "your-name",
-  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.3.1",
     "ethers": "^6.10.0"
   }
 }
-
