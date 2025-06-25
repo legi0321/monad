@@ -4,7 +4,7 @@
   "description": "Swap multi-token di jaringan Monad ke berbagai DEX (Bean, Kuru.io, Izumi) dengan multi-akun",
   "main": "swap_all.js",
   "scripts": {
-    "start": "index.js"
+    "start": "swap_all.js"
   },
   "keywords": [
     "monad",
