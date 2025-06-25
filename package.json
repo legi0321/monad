@@ -1,25 +1,14 @@
 {
   "name": "monad-token-swap",
   "version": "1.0.0",
-  "description": "Swap multi-token di jaringan Monad ke berbagai DEX (Bean, Kuru.io, Izumi) dengan multi-akun",
   "main": "swap_all.js",
   "scripts": {
-    "start": "swap_all.js"
+    "start": "node swap_all.js"
   },
-  "keywords": [
-    "monad",
-    "swap",
-    "dex",
-    "multiwallet",
-    "uniswap",
-    "kuru",
-    "izumi",
-    "beanswap"
-  ],
-  "author": "YourName",
-  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.3.1",
     "ethers": "^6.10.0"
   }
+}
+
 }
